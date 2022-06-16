@@ -1,28 +1,76 @@
 "use strict";
 
-// Variablen anlegen für eingabefelder Titel, Typ, Betrag, Datum
-// Ausgabe der prompt eingaben in der konsole
-// Einnahmen, Ausgaben, Bilanz
+const accountBook = {
+  // entry: {
+  //   title: null,
+  //   type: null,
+  //   amount: null,
+  //   date: null,
+  // },
 
-let income = 0;
-let expenses = 0;
+  entries: [],
 
-let title = prompt("Titel eingeben");
-let type = prompt("Einnahme oder Ausgabe?");
-let amount = prompt("Betrag eingeben (Komma als Punkt angeben!)");
-let date = prompt("Datum der Ausgabe/Einnahme (jjjj-mm-tt)?");
-console.log("Titel: " + title);
-console.log("Einnahme oder Ausgabe: " + type);
-console.log("Betrag: " + amount);
-console.log("Datum: " + date);
+  totalBalance: {
+    income: 0,
+    expenses: 0,
+    balance: 0,
+  },
 
-if(type === "Einnahme") {
-    income += amount;
-} else if (type === "Ausgabe") {
-    expenses += amount;
-}
+  enterEntryData() {
+    this.entries.push({
+      title: prompt("Titel eingeben"),
+      type: prompt("Einnahme oder Ausgabe?"),
+      amount: prompt("Betrag eingeben (Komma als Punkt angeben!)"),
+      date: prompt("Datum der Ausgabe/Einnahme (jjjj-mm-tt)?"),
+    });
+  },
 
-let balance = income - expenses;
-console.log("Einnahmen: " + income);
-console.log("Ausgaben: " + expenses);
-console.log("Bilanz: " + balance);
+  // printEntry(title, type, amount, date) {
+  //   console.log(
+  //     `Titel: ${title}\nTyp: ${type}\nBetrag: ${amount}\nDatum: ${date}`
+  //   );
+  // },
+
+  // calculateBalance(type, amount) {
+  //   switch (type) {
+  //     case "Einnahme":
+  //       accountBook.totalBalance.income += amount;
+  //       this.totalBalance.balance += amount;
+  //       break;
+  //     case "Ausgabe":
+  //       this.totalBalance.expenses += amount;
+  //       this.totalBalance.balance -= amount;
+  //       break;
+  //     default:
+  //       console.log(`Der Typ ${type} ist nicht bekannt!`);
+  //       break;
+  //   }
+  // },
+
+  // printBalance() {
+  //   console.log("Einnahmen: " + this.totalBalance.income);
+  //   console.log("Ausgaben: " + this.totalBalance.expenses);
+  //   console.log("Bilanz: " + this.totalBalance.balance);
+  //   let balancePositive = this.totalBalance.balance >= 0; // Wandelt in boolean
+  //   console.log(`Positive Bilanz: ${balancePositive}`);
+  // },
+
+  addNewEntry() {
+    this.enterEntryData();
+    // this.printEntry(
+    //   this.entry.title,
+    //   this.entry.type,
+    //   this.entry.amount,
+    //   this.entry.date
+    // );
+    // this.calculateBalance(this.entry.type, this.entry.amount);
+    // this.printBalance(
+    //   this.totalBalance.income,
+    //   this.totalBalance.expenses,
+    //   this.totalBalance.balance
+    // );
+  },
+};
+
+accountBook.addNewEntry();
+console.log(accountBook);
