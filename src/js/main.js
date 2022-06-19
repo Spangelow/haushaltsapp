@@ -57,6 +57,7 @@ const accountBook = {
 
   addNewEntry() {
     this.enterEntryData();
+    this.printEntry();
     // this.printEntry(
     //   this.entry.title,
     //   this.entry.type,
@@ -73,4 +74,5 @@ const accountBook = {
 };
 
 accountBook.addNewEntry();
-console.log(accountBook);
+accountBook.addNewEntry();
+// console.log(accountBook);
