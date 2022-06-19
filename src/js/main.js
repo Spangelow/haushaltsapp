@@ -10,80 +10,73 @@ const accountBook = {
 
   entries: [],
 
-  totalBalance: {
-    income: 0,
-    expenses: 0,
-    balance: 0,
-  },
+  // totalBalance: {
+  //   income: 0,
+  //   expenses: 0,
+  //   balance: 0,
+  // },
+
+  totalBalance: new Map(),
 
   enterEntryData() {
-    this.entries.push({
-      title: prompt("Titel eingeben"),
-      type: prompt("Einnahme (E) oder Ausgabe (A)?"),
-      amount: parseFloat(prompt("Betrag eingeben (Komma als Punkt angeben!)")),
-      date: prompt("Datum der Ausgabe/Einnahme (jjjj-mm-tt)?"),
-    });
+    let newEntry = new Map();
+    newEntry.set("title", prompt("Titel eingeben"));
+    newEntry.set("type", prompt("Einnahme oder Ausgabe?"));
+    newEntry.set("amount", prompt("Betrag eingeben (Komma als Punkt angeben!)"));
+    newEntry.set("date", prompt("Datum der Ausgabe/Einnahme (jjjj-mm-tt)?"));
+    this.entries.push(newEntry);
     this.calculateBalance();
   },
 
-  // printEntries() {
-  //   this.entries.forEach(element => {
-  //     for (let pair of Object.entries(element)) {
-  //       //console.log(pair);
-  //       let count = 0;
-  //       for (let e of pair) {
-  //         console.log(e);
-  //         if (count%2) {
-  //           console.log("================");
-  //         }
-  //         count++;
-  //       }
-  //     }
-  //   });
-  // },
   printEntries() {
     // Falls printEntries() Teil der addNewEntry() ist
     console.clear();
     this.entries.forEach((element) => {
       console.log(
-        `Titel: ${element.title}\nTyp: ${element.type}\nBetrag: ${element.amount}\nDatum: ${element.date}`
+        `Titel: ${element.get("title")}\nTyp: ${element.get("type")}\nBetrag: ${element.get("amount")}\nDatum: ${element.get("date")}`
       );
     });
   },
 
   calculateBalance() {
-    let newtotalBalance = {
-      income: 0,
-      expenses: 0,
-      balance: 0,
-    };
+    // let newtotalBalance = {
+    //   income: 0,
+    //   expenses: 0,
+    //   balance: 0,
+    // };
+
+    let newtotalBalance = new Map();
+    newtotalBalance.set("income", 0);
+    newtotalBalance.set("expenses", 0);
+    newtotalBalance.set("balance", 0);
 
     this.entries.forEach((element) => {
-      switch (element.type) {
+      switch (element.get("type")) {
         case "E":
-          newtotalBalance.income += element.amount;
+          newtotalBalance.set("income", newtotalBalance.get("income") + element.get("amount"));
+          // newtotalBalance.income += element.get("amount");
           break;
         case "A":
-          newtotalBalance.expenses += element.amount;
+          newtotalBalance.set("expenses", newtotalBalance.get("expenses") + element.get("amount"));
           break;
         default:
-          console.log(`Der Typ ${element.type} ist nicht bekannt!`);
+          console.log(`Der Typ ${element.get("type")} ist nicht bekannt!`);
           break;
       }
     });
-    newtotalBalance.balance = newtotalBalance.income - newtotalBalance.expenses;
+    newtotalBalance.set("balance", newtotalBalance.get("income") - newtotalBalance.get("expenses"));
     this.totalBalance = newtotalBalance;
   },
 
   printBalance() {
     console.log("============== Bilanz ==============");
-    console.log("Einnahmen: " + this.totalBalance.income);
-    console.log("Ausgaben: " + this.totalBalance.expenses);
-    console.log("Bilanz: " + this.totalBalance.balance);
-    let balancePositive = this.totalBalance.balance >= 0; // Wandelt in boolean
-    if (balancePositive) {
-      console.log(`Die Bilanz ist positiv`);
-    }
+    console.log("Einnahmen: " + this.totalBalance.get("income"));
+    console.log("Ausgaben: " + this.totalBalance.get("expenses"));
+    console.log("Bilanz: " + this.totalBalance.get("balance"));
+    // let balancePositive = this.totalBalance.balance >= 0; // Wandelt in boolean
+    // if (balancePositive) {
+    //   console.log(`Die Bilanz ist positiv`);
+    // }
     console.log("===================================");
   },
 
