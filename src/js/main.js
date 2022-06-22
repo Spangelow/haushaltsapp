@@ -23,7 +23,8 @@ const accountBook = {
     newEntry.set("title", prompt("Titel eingeben"));
     newEntry.set("type", prompt("Einnahme oder Ausgabe?"));
     newEntry.set("amount", prompt("Betrag eingeben (Komma als Punkt angeben!)"));
-    newEntry.set("date", prompt("Datum der Ausgabe/Einnahme (jjjj-mm-tt)?"));
+    newEntry.set("date", new Date(prompt("Datum (jjjj-mm-tt):") + " 00:00:00"));
+    newEntry.set("timestamp", Date.now());
     this.entries.push(newEntry);
     this.calculateBalance();
   },
@@ -33,7 +34,11 @@ const accountBook = {
     console.clear();
     this.entries.forEach((element) => {
       console.log(
-        `Titel: ${element.get("title")}\nTyp: ${element.get("type")}\nBetrag: ${element.get("amount")}\nDatum: ${element.get("date")}`
+        `Titel: ${element.get("title")}\nTyp: ${element.get("type")}\nBetrag: ${element.get("amount")}\nDatum: ${element.get("date").toLocaleDateString("de-DE", {
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit"
+        })}\nTimestamp: ${element.get("timestamp")}`
       );
     });
   },
