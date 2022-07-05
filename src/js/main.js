@@ -20,21 +20,62 @@ const accountBook = {
 
   enterEntryData() {
     let newEntry = new Map();
-    newEntry.set("title", prompt("Titel eingeben"));
-    newEntry.set("type", prompt("Einnahme oder Ausgabe?"));
-    newEntry.set("amount", prompt("Betrag eingeben (Komma als Punkt angeben!)"));
-    newEntry.set("date", new Date(prompt("Datum (jjjj-mm-tt):") + " 00:00:00"));
+    newEntry.set("title", prompt("Titel eingeben").trim());
+    newEntry.set("type", prompt("Einnahme oder Ausgabe?").trim());
+    newEntry.set("amount", this.convertAmount(prompt("Betrag eingeben (ohne € Zeichen)").trim()));
+    // newEntry.set("date", new Date(prompt("Datum (jjjj-mm-tt):").trim() + " 00:00:00"));
+    newEntry.set("date", this.convertDate(prompt("Datum (jjjj-mm-tt):").trim()));
     newEntry.set("timestamp", Date.now());
     this.entries.push(newEntry);
     this.calculateBalance();
   },
+
+  convertAmount(amount) {
+    if(this.validateAmount(amount)) {
+      return parseFloat(amount.replace(",", ".")) * 100;
+    } else {
+      console.log(amount + " ist kein gültiger Betrag.\nBitte eine gültige Zahl als Betrag eingeben!")
+      return false;
+    }
+  },
+
+  validateAmount(amount) {
+    // ^ = begins with, \d+ = any amount digits, (,|.) = , or . ,
+    // \d\d? = at least 1 digit 2nd digit optional, $ = line end 
+    if (amount.match(/^\d+((,|\.)\d\d?)?$/) !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  convertDate(date) {
+    if(this.validateDate(date)) {
+      return new Date(datum + " 00:00:00");
+    } else {
+      console.log(date + " ist kein gültiges Datum.\nBitte ein Datum in der Form JJJJ-MM-DD eingeben!")
+      return false;
+    }
+  },
+
+  validateDate(date) {
+    // ^ = begins with, \d+ = any amount digits, (,|.) = , or . ,
+    // \d\d? = at least 1 digit 2nd digit optional, $ = line end 
+    if (date.match(/\d{4}-\d{2}-\d{2}/) !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+
 
   printEntries() {
     // Falls printEntries() Teil der addNewEntry() ist
     console.clear();
     this.entries.forEach((element) => {
       console.log(
-        `Titel: ${element.get("title")}\nTyp: ${element.get("type")}\nBetrag: ${element.get("amount")}\nDatum: ${element.get("date").toLocaleDateString("de-DE", {
+        `Titel: ${element.get("title")}\nTyp: ${element.get("type")}\nBetrag: ${(element.get("amount") / 100).toFixed(2)} €\nDatum: ${element.get("date").toLocaleDateString("de-DE", {
           year: "numeric",
           month: "2-digit",
           day: "2-digit"
@@ -75,9 +116,9 @@ const accountBook = {
 
   printBalance() {
     console.log("============== Bilanz ==============");
-    console.log("Einnahmen: " + this.totalBalance.get("income"));
-    console.log("Ausgaben: " + this.totalBalance.get("expenses"));
-    console.log("Bilanz: " + this.totalBalance.get("balance"));
+    console.log("Einnahmen: " + (this.totalBalance.get("income") / 100).toFixed(2) + " €");
+    console.log("Ausgaben: " + (this.totalBalance.get("expenses") / 100).toFixed(2) + " €");
+    console.log("Bilanz: " + (this.totalBalance.get("balance") / 100).toFixed(2) + " €");
     // let balancePositive = this.totalBalance.balance >= 0; // Wandelt in boolean
     // if (balancePositive) {
     //   console.log(`Die Bilanz ist positiv`);
