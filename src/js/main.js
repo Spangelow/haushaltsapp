@@ -1,40 +1,81 @@
 "use strict";
 
 const accountBook = {
-  // entry: {
-  //   title: null,
-  //   type: null,
-  //   amount: null,
-  //   date: null,
-  // },
-
-  entries: [],
-
-  // totalBalance: {
-  //   income: 0,
-  //   expenses: 0,
-  //   balance: 0,
-  // },
 
   totalBalance: new Map(),
+  entries: [],
+  errors: [],
 
   enterEntryData() {
     let newEntry = new Map();
-    newEntry.set("title", prompt("Titel eingeben").trim());
-    newEntry.set("type", prompt("Einnahme oder Ausgabe?").trim());
-    newEntry.set("amount", this.convertAmount(prompt("Betrag eingeben (ohne € Zeichen)").trim()));
+    newEntry.set("title", this.convertTitle(prompt("Titel eingeben")));
+    newEntry.set("type", this.convertType(prompt("Einnahme oder Ausgabe?")));
+    newEntry.set("amount", this.convertAmount(prompt("Betrag eingeben (ohne € Zeichen)")));
     // newEntry.set("date", new Date(prompt("Datum (jjjj-mm-tt):").trim() + " 00:00:00"));
-    newEntry.set("date", this.convertDate(prompt("Datum (jjjj-mm-tt):").trim()));
+    newEntry.set("date", this.convertDate(prompt("Datum (jjjj-mm-tt):")));
     newEntry.set("timestamp", Date.now());
-    this.entries.push(newEntry);
+    if(this.errors.length === 0) {
+      this.entries.push(newEntry);
+    } else {
+      console.log("Es gibt Fehler: ");
+      this.errors.forEach( e => {
+        console.log(e);
+      });
+    }
     this.calculateBalance();
   },
 
+// TODO:
+// eigenschaft fehler --> leeres array initial
+// verarbeiten methode im ELSE fall --> anstatt console.log --> Fehlerstring in Fehlerarray pushen 
+// dann in enterEntryData() Methode einen Weg ausdenken, wie der jeweilige (fehlerhafte) Eintrag ins entry array reingepusht wird
+
+  convertTitle(title) {
+    title = title.trim();
+    if(this.validateTitle(title)) {
+      return title;
+    } else {
+      this.errors.push("Es wurde kein Titel eingegeben");
+      return false;
+    }
+  },
+
+  validateTitle(title) {
+    // ^ = begins with, \d+ = any amount digits, (,|.) = , or . ,
+    // \d\d? = at least 1 digit 2nd digit optional, $ = line end 
+    if (title !== "") {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+  convertType(type) {
+    type = type.trim().toLowerCase();
+    if(this.validateType(type)) {
+      return type;
+    } else {
+      this.errors.push(type + " ist kein gültiger Typ!\nBitte einen gültigen Typ angeben.");
+      return false;
+    }
+  },
+
+  validateType(type) {
+    // e = einnahme a = ausgabe
+    if (type.match(/^(?:e|a)$/) !== null) {
+      return true;
+    } else {
+      return false;
+    }
+  },
+
+
   convertAmount(amount) {
+    amount = amount.trim();
     if(this.validateAmount(amount)) {
       return parseFloat(amount.replace(",", ".")) * 100;
     } else {
-      console.log(amount + " ist kein gültiger Betrag.\nBitte eine gültige Zahl als Betrag eingeben!")
+      this.errors.push(amount + " ist kein gültiger Betrag.\nBitte eine gültige Zahl als Betrag eingeben!");
       return false;
     }
   },
@@ -50,10 +91,11 @@ const accountBook = {
   },
 
   convertDate(date) {
+    date = date.trim();
     if(this.validateDate(date)) {
-      return new Date(datum + " 00:00:00");
+      return new Date(date + " 00:00:00");
     } else {
-      console.log(date + " ist kein gültiges Datum.\nBitte ein Datum in der Form JJJJ-MM-DD eingeben!")
+      this.errors.push(date + " ist kein gültiges Datum.\nBitte ein Datum in der Form JJJJ-MM-DD eingeben!")
       return false;
     }
   },
@@ -61,7 +103,7 @@ const accountBook = {
   validateDate(date) {
     // ^ = begins with, \d+ = any amount digits, (,|.) = , or . ,
     // \d\d? = at least 1 digit 2nd digit optional, $ = line end 
-    if (date.match(/\d{4}-\d{2}-\d{2}/) !== null) {
+    if (date.match(/^\d{4}-\d{2}-\d{2}$/) !== null) {
       return true;
     } else {
       return false;
@@ -98,11 +140,11 @@ const accountBook = {
 
     this.entries.forEach((element) => {
       switch (element.get("type")) {
-        case "E":
+        case "e":
           newtotalBalance.set("income", newtotalBalance.get("income") + element.get("amount"));
           // newtotalBalance.income += element.get("amount");
           break;
-        case "A":
+        case "a":
           newtotalBalance.set("expenses", newtotalBalance.get("expenses") + element.get("amount"));
           break;
         default:
@@ -127,7 +169,6 @@ const accountBook = {
   },
 
   sortEntriesByDate() {
-    console.log("Hallo?");
     this.entries = this.entries.sort((a,b) =>  {
       if (a.date > b.date) {
         // ziehe a weiter nach vorne
@@ -145,19 +186,26 @@ const accountBook = {
     let addAnotherEntry = true;
     while (addAnotherEntry) {
       this.enterEntryData();
-      this.printEntries();
-      this.calculateBalance();
-      // this.printBalance();
+      if (this.errors.length === 0) {
+        this.sortEntriesByDate();
+        this.printEntries();
+        this.calculateBalance();
+        this.printBalance();
+      } else {
+        this.errors = [];
+      }
       addAnotherEntry = confirm("Einen weiteren Eintrag hinzufügen?");
     }
   },
 };
 
 accountBook.addNewEntry();
+if (this.errors.length === 0) {
+  accountBook.sortEntriesByDate();
+  accountBook.printEntries();
+  accountBook.calculateBalance();
+  accountBook.printBalance();
+} 
 
-accountBook.sortEntriesByDate();
-accountBook.printEntries();
-accountBook.calculateBalance();
-accountBook.printBalance();
 
 // console.log(accountBook);
