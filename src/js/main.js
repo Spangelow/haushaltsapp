@@ -192,7 +192,7 @@ const accountBook = {
         this.calculateBalance();
         this.printBalance();
       } else {
-        this.errors = [];
+        this.errors  = [];
       }
       addAnotherEntry = confirm("Einen weiteren Eintrag hinzufügen?");
     }
