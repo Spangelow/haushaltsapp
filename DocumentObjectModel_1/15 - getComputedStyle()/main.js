@@ -19,6 +19,6 @@ let allElements = document.querySelectorAll("*");
 console.log(allElements);
 allElements.forEach( e => {
     if (e.style.backgroundColor === "red") {
-        ("Red found at " + e);
+        console.log("Red found at " + e);
     }
 });
