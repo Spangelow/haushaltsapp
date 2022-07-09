@@ -282,6 +282,7 @@ button.standard {
     border-radius: 1.5rem;
     margin: 1rem 0;
     cursor: pointer;
+    box-shadow: 6px 6px 8px 8px rgba(0,0,0,0.9);
     -webkit-transition: color .15s ease-in-out, background-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
     transition: color .15s ease-in-out, background-color .15s ease-in-out, -webkit-box-shadow .15s ease-in-out;
     -o-transition: color .15s ease-in-out, background-color .15s ease-in-out, box-shadow .15s ease-in-out;
