@@ -13,61 +13,26 @@
     <meta name="msapplication-TileColor" content="#ffc40d">
     <meta name="theme-color" content="#ffffff">
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="./src/css/style.min.css">
+    <link rel="stylesheet" href="./src/css/style.css">
 </head>
 
 <body>
-
     <!-- Navigationsleiste -->
     <nav id="navigationsleiste">
         <a href="index.html"><span id="markenname">ACCOUNT-BOOK</span></a>
     </nav>
-
-    <!-- Eingabeformular -->
-    <section id="eingabeformular-container">
-        <!-- Formular -->
-        <form id="eingabeformular" action="#" method="get"></form>
-        <!-- Titel -->
-        <div class="eingabeformular-zeile">
-            <h1>Neue Einnahme / Ausgabe hinzufügen</h1>
-        </div>
-        <!-- Titel-Typ-Eingabezeile -->
-        <div class="eingabeformular-zeile">
-            <div class="titel-typ-eingabe-gruppe">
-                <label for="titel">Titel</label>
-                <input type="text" id="titel" form="eingabeformular" name="titel" placeholder="z.B. Einkaufen" size="10" title="Titel des Eintrags">
-                <input type="radio" id="einnahme" name="typ" value="einnahme" form="eingabeformular" title="Typ des Eintrags">
-                <label for="einnahme" title="Typ des Eintrags">Einnahme</label>
-                <input type="radio" id="ausgabe" name="typ" value="ausgabe" form="eingabeformular" title="Typ des Eintrags" checked>
-                <label for="ausgabe" title="Typ des Eintrags">Ausgabe</label>
-            </div>
-        </div>
-        <!-- Betrag-Datum-Eingabezeile -->
-        <div class="eingabeformular-zeile">
-            <div class="betrag-datum-eingabe-gruppe">
-                <label for="betrag">Betrag</label>
-                <input type="number" id="betrag" name="betrag" form="eingabeformular" placeholder="z.B. 10,42" size="10" step="0.01" title="Betrag des Eintrags (max. zwei Nachkommastellen, kein €-Zeichen)">
-                <label for="datum">Datum</label>
-                <input type="date" id="datum" name="datum" form="eingabeformular" placeholder="jjjj-mm-tt" size="10" title="Datum des Eintrags (Format: jjjj-mm-tt)">
-            </div>
-        </div>
-        <!-- Absenden-Button -->
-        <div class="eingabeformular-zeile">
-            <button class="standard" type="submit" form="eingabeformular">Hinzufügen</button>
-        </div>
-    </section>
 
     <!-- Monatslisten -->
     <section id="monatslisten">
 
         <!-- Monatsliste -->
         <article class="monatsliste">
-            <!-- Titel -->
+            Titel
             <h2>
-                <span class="monat-jahr">Februar 2020</span>
-                <span class="monatsbilanz negativ">-326,84€</span>
+                <span class="monat-jahr"></span>
+                <span class="monatsbilanz negativ"></span>
             </h2>
-            <!-- Eintrags-Liste -->
+            <!-- Eintrags-Liste --
             <ul>
                 <li class="ausgabe">
                     <span class="datum">03.02.2020</span>
@@ -81,8 +46,8 @@
                     <span class="betrag">2064,37 €</span>
                     <button class="entfernen-button"><i class="fas fa-trash"></i></button>
                 </li>
-            </ul>
-        </article>
+            </ul>--> 
+        </article> 
     </section>
 
     <!-- Gesamtbilanz -->
@@ -93,11 +58,12 @@
         <div class="gesamtbilanz-zeile bilanz"><span>Bilanz:</span><span class="positiv">0,00 €</span></div>
     </aside>
 
+    <script src="./src/js/accountbook.js"></script>
+    <script src="./src/js/formular.js"></script>
     <script src="./src/js/main.js"></script>
 
     <!-- Fontawesome -->
     <script src="./src/fonts/fontawesome/all.min.js"></script>
-
 </body>
 
 </html>
