@@ -20,13 +20,6 @@ const accountBook = {
     this.displayBalance();
   },
 
-  /*
-Check ob eine ul bereits vorhanden ist --> ggf <ul> entfernen, da immer komplettes entry array erstellt wird --> Doppeltes anlegen vermeiden
-<ul> erstellen
-über entries[] iterieren
-für jeden Eintrag einen HTML Eintrag erstellen (li) 
-Und HTML Entry in <ul> einsetzen
-<ul> in article monatsliste einsetzen */
   displayEntries() {
     document.querySelectorAll(".monatsliste ul").forEach(e => {
       e.remove();
@@ -40,11 +33,8 @@ Und HTML Entry in <ul> einsetzen
 
   generateHTMLEntry(entry) {
     let listelement = document.createElement("li");
-    if (entry.get("type") === "einnahme") {
-      listelement.setAttribute("class", "einnahme");
-    } else if (entry.get("type") === "ausgabe") {
-      listelement.setAttribute("class", "ausgabe");
-    }
+    entry.get("type") === "einnahme" ? listelement.setAttribute("class", "einnahme") : listelement.setAttribute("class", "ausgabe");
+
     listelement.setAttribute("data-timestamp", entry.get("timestamp"));
 
     let date = document.createElement("span");
@@ -118,11 +108,7 @@ Und HTML Entry in <ul> einsetzen
     balanceSpan.textContent = "Bilanz:";
     balance.insertAdjacentElement("afterbegin", balanceSpan);
     let balanceAmount = document.createElement("span");
-    if (this.totalBalance.get("balance") >= 0) {
-      balanceAmount.setAttribute("class", "positiv");
-    } else if (this.totalBalance.get("balance") < 0) {
-      balanceAmount.setAttribute("class", "negativ");
-    }
+    this.totalBalance.get("balance") >= 0 ? balanceAmount.setAttribute("class", "positiv") : balanceAmount.setAttribute("class", "negativ");
     balanceAmount.textContent = `${(this.totalBalance.get("balance") / 100).toFixed(2).replace(/\./, ",")} €`;
     balance.insertAdjacentElement("beforeend", balanceAmount);
     totalBalance.insertAdjacentElement("beforeend", balance);
@@ -152,11 +138,7 @@ Und HTML Entry in <ul> einsetzen
         this.calculateBalance();
         this.displayBalance();
       }
-
-
-
   },
-
 
   calculateBalance() {
     let newtotalBalance = new Map();
@@ -185,22 +167,13 @@ Und HTML Entry in <ul> einsetzen
   // Check ob balance schon angezeigt wird --> Falls ja, entferne
   // Neue Balance anzeigen (generateHTMLbalance())
   displayBalance() {
-    document.querySelectorAll("#gesamtbilanz").forEach(e => {
-      e.remove();
-    });
+    document.querySelectorAll("#gesamtbilanz").forEach(e => e.remove());
     document.querySelector("body").insertAdjacentElement("beforeend", this.generateHTMLbalance());
   },
 
   sortEntriesByDate() {
     this.entries = this.entries.sort((a, b) => {
-      if (a.date > b.date) {
-        // ziehe a weiter nach vorne
-        return -1;
-      } else if (a.date < b.date) {
-        return 1;
-      } else {
-        return 0;
-      }
+      return a.get("date") > b.get("date") ? -1 : a.get("date") < b.get("date") ? 1 : 0;
     });
   }
 

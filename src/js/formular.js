@@ -6,23 +6,15 @@ const formular = {
         return {
             title: event.target.elements.titel.value,
             income: event.target.elements.einnahme.checked,
-            expense: event.target.elements.ausgabe.checked,
             amount: event.target.elements.betrag.value,
             date: event.target.elements.datum.valueAsDate
         };
     },
 
     processFormularData(formularData) {
-        let type;
-        if (formularData.expense === true) {
-            type = "ausgabe";
-        } else if (formularData.income === true) {
-            type = "einnahme";
-        }
-        
         return {
             title: formularData.title.trim(),
-            type: type,
+            type: formularData.income === false ? "ausgabe" : "einnahme",
             amount: parseInt((formularData.amount * 100), 10), // parseFloat("3123.56") würde auch gehen
             date: formularData.date
         };
@@ -33,9 +25,6 @@ const formular = {
         if (formularData.title === "") {
             errors.push("Title");
         }
-        if (formularData.type === undefined || formularData.type.match(/^(?:einnahme|ausgabe)$/) === null) {
-            errors.push("Type");
-        } 
         if (isNaN(formularData.amount) || formularData.amount < 0) {
             errors.push("Amount");
         }
@@ -145,8 +134,10 @@ const formular = {
     },
 
     display() {
-        document.querySelector("#navigationsleiste").insertAdjacentElement("afterend", this.generateHTML());
-        // Datum auf den heutigen Tag setzen
-        this.setCurrentDate();
+        let nav = document.querySelector("#navigationsleiste");
+        if (nav !== null) {
+            nav.insertAdjacentElement("afterend", this.generateHTML());
+            this.setCurrentDate();
+        }
     }
 };
