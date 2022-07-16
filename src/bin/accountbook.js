@@ -123,22 +123,22 @@ const accountBook = {
     });
   },
 
-  removeEntry(timestamp) {
-    let startIndex;
-    for (let i = 0; i < this.entries.length; i++) {
-      if (this.entries[i].get("timestamp") === parseInt(timestamp)) {
-        startIndex = i;
-        break;
-      }
-    }
-      if(startIndex !== undefined) {
-        this.entries.splice(startIndex, 1);
-        this.sortEntriesByDate();
-        this.displayEntries();
-        this.calculateBalance();
-        this.displayBalance();
-      }
-  },
+  // removeEntry(timestamp) {
+  //   let startIndex;
+  //   for (let i = 0; i < this.entries.length; i++) {
+  //     if (this.entries[i].get("timestamp") === parseInt(timestamp)) {
+  //       startIndex = i;
+  //       break;
+  //     }
+  //   }
+  //     if(startIndex !== undefined) {
+  //       this.entries.splice(startIndex, 1);
+  //       this.sortEntriesByDate();
+  //       this.displayEntries();
+  //       this.calculateBalance();
+  //       this.displayBalance();
+  //     }
+  // },
 
   calculateBalance() {
     let newtotalBalance = new Map();
