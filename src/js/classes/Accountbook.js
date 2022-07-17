@@ -5,6 +5,8 @@ class AccountBook {
 
     constructor() {
         this._entries = [];
+        this._navigation = new Navigation();
+        this._formular = new Formular();
         this._monthListCollection = new MonthListCollection();
         this._totalBalance = new TotalBalance();   
     }
@@ -12,8 +14,7 @@ class AccountBook {
   addNewEntry(formularData) {
     let newEntry = new Entry(formularData.title, formularData.type, formularData.amount, formularData.date);
     this._entries.push(newEntry);
-    this._sortEntriesByDate();
-    this._displayEntries();
+    this._monthListCollection.refresh(this._entries);
     this._totalBalance.calculateBalance(this._entries);
   }
 
@@ -27,27 +28,16 @@ class AccountBook {
     }
       if(startIndex !== undefined) {
         this._entries.splice(startIndex, 1);
-        this._sortEntriesByDate();
-        this._displayEntries();
+        this._monthListCollection.refresh(this._entries);
         this._totalBalance.calculateBalance(this._entries);
       }
   }
 
-  _sortEntriesByDate() {
-    this._entries = this._entries.sort((a, b) => {
-      return a.date() > b.date() ? -1 : a.date() < b.date() ? 1 : 0;
-    });
-  }
-
-  _displayEntries() {
-    document.querySelectorAll(".monatsliste ul").forEach(e => {
-      e.remove();
-    });
-    let entrylist = document.createElement("ul");
-    this._entries.forEach(e => {
-      entrylist.insertAdjacentElement("beforeend", e.html());
-    });
-    document.querySelector(".monatsliste").insertAdjacentElement("afterbegin", entrylist);
+  start() {
+    this._navigation.displayHTML();
+    this._formular.displayHTML();
+    this._monthListCollection.displayHTML();
+    this._totalBalance.displayHTML();
   }
 
 }

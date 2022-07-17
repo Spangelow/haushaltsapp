@@ -1,12 +1,13 @@
 "use strict";
 
-  /* <aside id="gesamtbilanz">
-<h1>Gesamtbilanz</h1>
-<div class="gesamtbilanz-zeile einnahmen"><span>Einnahmen:</span><span>0,00 €</span></div>
-<div class="gesamtbilanz-zeile ausgaben"><span>Ausgaben:</span><span>0,00 €</span></div>
-<div class="gesamtbilanz-zeile bilanz"><span>Bilanz:</span><span class="positiv">0,00 €</span></div>
-</aside> */
-
+  /* HTML: 
+  <aside id="gesamtbilanz">
+    <h1>Gesamtbilanz</h1>
+    <div class="gesamtbilanz-zeile einnahmen"><span>Einnahmen:</span><span>0,00 €</span></div>
+    <div class="gesamtbilanz-zeile ausgaben"><span>Ausgaben:</span><span>0,00 €</span></div>
+    <div class="gesamtbilanz-zeile bilanz"><span>Bilanz:</span><span class="positiv">0,00 €</span></div>
+  </aside> 
+  */
 
 class TotalBalance {
   constructor() {
@@ -14,7 +15,6 @@ class TotalBalance {
     this._expenses = 0;
     this._totalBalance = 0;
     this._html = this._generateHTMLbalance();
-    this._displayBalance();
   }
 
   _generateHTMLbalance() {
@@ -93,12 +93,10 @@ class TotalBalance {
     });
     this._totalBalance = this._income - this._expenses;
     this._html = this._generateHTMLbalance();
-    this._displayBalance();
+    this.displayHTML();
   }
 
-  // Check ob balance schon angezeigt wird --> Falls ja, entferne
-  // Neue Balance anzeigen (generateHTMLbalance())
-  _displayBalance() {
+  displayHTML() {
     let totalBalance = document.querySelector("#gesamtbilanz");
     if (totalBalance !== null) {
       totalBalance.remove();

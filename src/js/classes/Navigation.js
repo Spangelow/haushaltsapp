@@ -1,7 +1,8 @@
 "use strict";
 
+    // HTML: 
     // <nav id="navigationsleiste">
-    //     <a href="index.html"><span id="markenname">ACCOUNT-BOOK</span></a>
+    //     <a href="index.html"><span id="markenname">ACCOUNTBOOK</span></a>
     // </nav>
     
 class Navigation {
@@ -32,5 +33,4 @@ class Navigation {
                 body.insertAdjacentElement("afterbegin", this._html);
             }
     }
-
 }

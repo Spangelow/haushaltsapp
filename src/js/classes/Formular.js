@@ -99,7 +99,7 @@ class Formular {
         return formular;
     }
 
-    display() { 
+    displayHTML() { 
         let nav = document.querySelector("#navigationsleiste");
         if (nav !== null) {
             nav.insertAdjacentElement("afterend", this._html);

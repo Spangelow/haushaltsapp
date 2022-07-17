@@ -11,15 +11,10 @@ class Entry {
     }
 
     title() { return this._title; }
-
     type() { return this._type; }
-
     amount() { return this._amount; }
-
     date() { return this._date; }
-
     timestamp() { return this._timestamp; }
-    
     html() { return this._html; }
 
     _generateHTMLEntry() {

@@ -46,6 +46,4 @@ class Error {
             errorBox.insertAdjacentElement("afterbegin", this._html);
         }
     }
-
-
 }
